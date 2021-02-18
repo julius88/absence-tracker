@@ -24,6 +24,7 @@ jobs:
           version: 19.03.13
       - run: |
           export TAG=$CIRCLE_SHA1
+          echo $DOCKER_PASS | docker login https://docker.pkg.github.com -u julius88 --password-stdin
           docker-compose pull frontend
           docker-compose run frontend yarn test --watchAll=false
 
@@ -37,6 +38,7 @@ jobs:
           version: 19.03.13
       - run: |
           export TAG=$CIRCLE_SHA1
+          echo $DOCKER_PASS | docker login https://docker.pkg.github.com -u julius88 --password-stdin
           docker-compose pull backend
           docker-compose run backend yarn test --watchAll=false
 
