@@ -7,9 +7,8 @@ jobs:
       - checkout
       - setup_remote_docker:
           version: 19.03.13
-          docker_layer_caching: true
       - run: |
-          TAG=0.1.$CIRCLE_BUILD_NUM
+          TAG=$CIRCLE_SHA1
           docker-compose build
           cat $DOCKER_PASS | docker login https://docker.pkg.github.com -u julius88 --password-stdin
           docker-compose push
