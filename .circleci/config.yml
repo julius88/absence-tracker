@@ -26,3 +26,27 @@ jobs:
           export TAG=$CIRCLE_SHA1
           docker-compose pull frontend
           docker-compose run frontend yarn test --watchAll=false
+
+  test-backend:
+    docker:
+      - image: cimg/base:2021.02
+    resource_class: small
+    steps:
+      - checkout
+      - setup_remote_docker:
+          version: 19.03.13
+      - run: |
+          export TAG=$CIRCLE_SHA1
+          docker-compose pull backend
+          docker-compose run backend yarn test --watchAll=false
+
+workflows:
+  build_and_test:
+    jobs:
+      - build
+      - test-frontend:
+          requires:
+            - build
+      - test-backend:
+          requires:
+            - build
