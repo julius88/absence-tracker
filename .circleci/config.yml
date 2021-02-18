@@ -13,3 +13,16 @@ jobs:
           docker-compose build
           echo $DOCKER_PASS | docker login https://docker.pkg.github.com -u julius88 --password-stdin
           docker-compose push
+
+  test-frontend:
+    docker:
+      - image: cimg/base:2021.02
+    resource_class: small
+    steps:
+      - checkout
+      - setup_remote_docker:
+          version: 19.03.13
+      - run: |
+          TAG=$CIRCLE_SHA1
+          docker-compose pull frontend
+          docker-compose run frontend yarn test --watchAll=false
