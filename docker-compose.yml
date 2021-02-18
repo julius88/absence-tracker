@@ -2,13 +2,13 @@ version: '3.9'
 
 services:
   frontend:
-    image: "docker.pkg.github.com/julius88/absence-tracker/frontend:latest"
+    image: "docker.pkg.github.com/julius88/absence-tracker/frontend:${TAG-latest}"
     build:
       context: ./frontend
     ports:
       - "3000:3000"
   backend:
-    image: "docker.pkg.github.com/julius88/absence-tracker/backend:latest"
+    image: "docker.pkg.github.com/julius88/absence-tracker/backend:${TAG-latest}"
     build:
       context: ./backend
     command: yarn run start
