@@ -1,0 +1,31 @@
+version: '3.9'
+
+services:
+  frontend:
+    image: "docker.pkg.github.com/julius88/absence-tracker/frontend:latest"
+    build:
+      context: ./frontend
+    ports:
+      - "3000:3000"
+  backend:
+    image: "docker.pkg.github.com/julius88/absence-tracker/backend:latest"
+    build:
+      context: ./backend
+    command: yarn run start
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+  db:
+    image: mongo:4
+    ports:
+      - "27017-27019:27017-27019"
+    volumes:
+      - mongodbdata:/datadb
+    environment:
+      MONGO_INITDB_DATABASE: absence-tracker
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
+
+volumes:
+  mongodbdata:
