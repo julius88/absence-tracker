@@ -3,6 +3,7 @@ jobs:
   build:
     docker:
       - image: cimg/base:2021.02
+    resource_class: small
     steps:
       - checkout
       - setup_remote_docker:
@@ -10,5 +11,5 @@ jobs:
       - run: |
           TAG=$CIRCLE_SHA1
           docker-compose build
-          cat $DOCKER_PASS | docker login https://docker.pkg.github.com -u julius88 --password-stdin
+          echo $DOCKER_PASS | docker login https://docker.pkg.github.com -u julius88 --password-stdin
           docker-compose push
