@@ -9,8 +9,8 @@ jobs:
       - setup_remote_docker:
           version: 19.03.13
       - run: |
-          TAG=$CIRCLE_SHA1
-          docker-compose build
+          export TAG=$CIRCLE_SHA1
+          docker-compose build --parallel
           echo $DOCKER_PASS | docker login https://docker.pkg.github.com -u julius88 --password-stdin
           docker-compose push
 
@@ -23,6 +23,6 @@ jobs:
       - setup_remote_docker:
           version: 19.03.13
       - run: |
-          TAG=$CIRCLE_SHA1
+          export TAG=$CIRCLE_SHA1
           docker-compose pull frontend
           docker-compose run frontend yarn test --watchAll=false
